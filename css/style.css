@@ -211,7 +211,13 @@
     .text-indication-of-audio-playing {
         font-size: 20px;
     }
+    .text-indication-of-audio-verified {
+        font-size: 20px;
+    }
     .text-indication-of-audio-playing.hide {
+        display: none;
+    }
+    .text-indication-of-audio-verified.hide {
         display: none;
     }
     /* 3 Dots animation*/

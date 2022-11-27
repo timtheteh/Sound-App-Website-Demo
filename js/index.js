@@ -13,6 +13,7 @@ var audioElement = document.getElementsByClassName("audio-element")[0];
 var audioElementSource = document.getElementsByClassName("audio-element")[0]
     .getElementsByTagName("source")[0];
 var textIndicatorOfAudiPlaying = document.getElementsByClassName("text-indication-of-audio-playing")[0];
+var textIndicatorOfAudioVerified = document.getElementsByClassName("text-indication-of-audio-verified")[0];
 
 //Listeners
 
@@ -29,7 +30,13 @@ cancelRecordingButton.onclick = cancelAudioRecording;
 closeBrowserNotSupportedBoxButton.onclick = hideBrowserNotSupportedOverlay;
 
 //Listen to when the audio being played ends
-audioElement.onended = hideTextIndicatorOfAudioPlaying;
+// audioElement.onended = hideTextIndicatorOfAudioPlaying;
+audioElement.onended = hideAudioPlayingAndDisplayAudioVerified;
+
+function hideAudioPlayingAndDisplayAudioVerified () {
+    hideTextIndicatorOfAudioPlaying();
+    displayTextIndicatorOfAudioVerified();
+}
 
 /** Displays recording control buttons */
 function handleDisplayingRecordingControlButtons() {
@@ -81,6 +88,14 @@ function displayTextIndicatorOfAudioPlaying() {
 /** Hide the text indicator of the audio being playing in the background */
 function hideTextIndicatorOfAudioPlaying() {
     textIndicatorOfAudiPlaying.classList.add("hide");
+}
+
+function displayTextIndicatorOfAudioVerified() {
+    textIndicatorOfAudioVerified.classList.remove("hide");
+}
+
+function hideTextIndicatorOfAudioVerified() {
+    textIndicatorOfAudioVerified.classList.add("hide");
 }
 
 //Controller
@@ -167,7 +182,7 @@ function stopAudioRecording() {
         .then(audioAsblob => {
             //Play recorder audio
             playAudio(audioAsblob);
-
+            // setInterval(displayTextIndicatorOfAudioVerified, 1000)
             //hide recording control button & return record icon
             handleHidingRecordingControlButtons();
         })
@@ -225,6 +240,7 @@ function playAudio(recorderAudioAsBlob) {
 
         //play the audio after successfully setting new src and type that corresponds to the recorded audio
         console.log("Playing audio...");
+        audioElement.volume = 0;
         audioElement.play();
 
         //Display text indicator of having the audio play in the background
